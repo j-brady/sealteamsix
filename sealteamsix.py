@@ -187,29 +187,29 @@ params = ["ZGOPTNS","AQ_mod","NS","DS","DE","DW","DIGMOD","FnTYPE"]
 nus_params = ["NusAMOUNT","NusSEED","NusPOINTS","NUSLIST"]
 # for loop below the GETPAR command is used since the GETPAR2 command gives incorrect information
 for i in params:
-	  if GETPAR(i) is None:
-	      pass 
-	  else:
-		    if i == "FnTYPE":
-			      string = " %-16s =  %-16s"% (i,FnTYPE.get(GETPAR(i),"Unknown"))
-			      outfile.write(string+"\n")
-			      # write out NUS params
-			      if FnTYPE.get(GETPAR(i)) is "NUS":
-				        head = " %-16s "% "NUS parameters"
-				        outfile.write(newsec+"\n")
-				        outfile.write(head+"\n")
-				        for i in nus_params:
-				            string = " %-16s =  %-16s"% (i,GETPAR(i))
-				            outfile.write(string+"\n")    
-		    elif i == "AQ_mod":
-		        string = " %-16s =  %-16s"% (i,AQ_mod.get(GETPAR(i),"Unknown"))
-		        outfile.write(string+"\n")
-		    elif i == "DIGMOD":
-		        string = " %-16s =  %-16s"% (i,DIGMOD.get(GETPAR(i),"Unknown"))
-		        outfile.write(string+"\n")
-		    else:
-		        string=" %-16s =  %-16s"% (i,GETPAR(i))
-		        outfile.write(string+"\n")
+    if GETPAR(i) is None:
+        pass 
+    else:
+        if i == "FnTYPE":
+            string = " %-16s =  %-16s"% (i,FnTYPE.get(GETPAR(i),"Unknown"))
+            outfile.write(string+"\n")
+            # write out NUS params
+            if FnTYPE.get(GETPAR(i)) is "NUS":
+                head = " %-16s "% "NUS parameters"
+                outfile.write(newsec+"\n")
+                outfile.write(head+"\n")
+                for i in nus_params:
+                    string = " %-16s =  %-16s"% (i,GETPAR(i))
+                    outfile.write(string+"\n")    
+        elif i == "AQ_mod":
+            string = " %-16s =  %-16s"% (i,AQ_mod.get(GETPAR(i),"Unknown"))
+            outfile.write(string+"\n")
+        elif i == "DIGMOD":
+            string = " %-16s =  %-16s"% (i,DIGMOD.get(GETPAR(i),"Unknown"))
+            outfile.write(string+"\n")
+        else:
+            string=" %-16s =  %-16s"% (i,GETPAR(i))
+            outfile.write(string+"\n")
 
 def match(regex,key):
     regex = re.compile(regex)
@@ -294,7 +294,7 @@ def find_blocks(path,pattern):
             number = int(gd_re_match.group(2))
             percent = GETPAR("GP%s %d"%(axis, number))
             if percent == "0":
-            	  pass
+                pass
             else:
                 alias = "%-s"%" ".join(i for i in items.get("TEXT",""))
                 string = grad_template.substitute(axis=axis,number=number, percent=("%4s"%percent)+" %", alias=alias)
@@ -338,19 +338,13 @@ def find_blocks(path,pattern):
                 pcpd=pcpd,alias=alias,string=string))
                           
         if spoff_re_match is not None:
-        	  number = int(spoff_re_match.group(1))
-        	  name = GETPAR2("SPNAM %d"%number)
-        	  spoff = GETPAR2("SPOFFS %d"%number)
-        	  spoal = GETPAR2("SPOAL %d"%number)
-        	  #spw = GETPAR2("SPW %d"%number)
-        	  # using GETPAR since GETPAR2 returns wrong value! Twats!
-        	  #spdb = GETPAR("SPdB %d"%number)
-        	  #print(name,number)
-        	  #print(spdb)
-        	  #pw = GETPAR2("P %d"%number)
-        	  string = shape_template.substitute(pulse="%20s"%name,number=number,\
+       	    number = int(spoff_re_match.group(1))
+       	    name = GETPAR2("SPNAM %d"%number)
+       	    spoff = GETPAR2("SPOFFS %d"%number)
+       	    spoal = GETPAR2("SPOAL %d"%number)
+       	    string = shape_template.substitute(pulse="%20s"%name,number=number,\
         	                                     spoff="%-4s"%spoff,spoal="%-4s"%spoal,alias=alias)
-        	  param_dic["shapes"].append(dict(pulse=name,number=number,
+       	    param_dic["shapes"].append(dict(pulse=name,number=number,
                 spoff=spoff,spoal=spoal,alias=alias,string=string))
                 
     return dic,param_dic
