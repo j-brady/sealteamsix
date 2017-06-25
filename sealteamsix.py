@@ -26,7 +26,7 @@ if os.getlogin() == 'jbrady':
         #print(string)
         return("0.0")
     def GETPAR2(string):
-    	  return("0.0")
+        return("0.0")
 else:
     cwd = CURDATA()
     # version of TopSpin being run
@@ -34,8 +34,8 @@ else:
     path = os.path.join(os.path.join(cwd[-1],cwd[0]),cwd[1])
     outname = "params.txt"
     if os.path.exists(os.path.join(path,outname)):
-	      fullpath = os.path.join(path,outname)
-	      sp.call("cp %s %s"%(fullpath,fullpath+".old"),shell=True)
+        fullpath = os.path.join(path,outname)
+        sp.call("cp %s %s"%(fullpath,fullpath+".old"),shell=True)
     
     outfile = open(os.path.join(path,outname),"w")
     outfile.write(os.path.join(path,outname)+"\n")
@@ -66,9 +66,9 @@ lists = [("VALIST",va_path),
          ("PHLIST",ph_path),
          ]
 for i in range(1,9):
-	fpath = "/opt/%s/exp/stan/nmr/lists/f%d"%(version,i)
-	name = "FQ%dLIST"%i
-	lists.append((name,fpath))
+    fpath = "/opt/%s/exp/stan/nmr/lists/f%d"%(version,i)
+    name = "FQ%dLIST"%i
+    lists.append((name,fpath))
 
 # number of aq dimensions
 ndims = len([i for i in os.listdir(path) if "acqu" in i and not i.endswith("s")])
@@ -104,27 +104,26 @@ DIGMOD = {"0":"analog",
           }
           
 def write_top(plist):
-	for i in plist:
-		outfile.write(i+"\n")
+    for i in plist:
+        outfile.write(i+"\n")
 		         
 def get_lists(lists):
-	for i in lists:
-		name = GETPAR(i[0])
-		path = i[1]
-		if name != "":
-			path_name = os.path.join(path,name)
-			if os.path.exists(path_name):
-				f = open(os.path.join(path,name),"r")
-				string = f.read()
-				outfile.write("\n" + i[0] + " - " + name + "\n")
-				outfile.write(string+"\n")
-				outfile.write(newsec+"\n")
-				f.close()
-			
-			else:
-				outfile.write("\n"+name+"\n")
-				outfile.write("Could not find %s in %s\n"%(name,path))
-				outfile.write(newsec+"\n")
+    for i in lists:
+        name = GETPAR(i[0])
+	path = i[1]
+        if name != "":
+            path_name = os.path.join(path,name)
+            if os.path.exists(path_name):
+                f = open(os.path.join(path,name),"r")
+                string = f.read()
+                outfile.write("\n" + i[0] + " - " + name + "\n")
+                outfile.write(string+"\n")
+                outfile.write(newsec+"\n")
+                f.close()	
+            else:
+                outfile.write("\n"+name+"\n")
+                outfile.write("Could not find %s in %s\n"%(name,path))
+                outfile.write(newsec+"\n")
 				
 #def get_spnams():
 #	string = ""
@@ -158,20 +157,20 @@ fnmod= " %-16s"%"FnMODE"
 dims = range(1,ndims+1)[::-1]
  
 for i in dims:
-	dim  += " %-16s"%("F"+str(i))
-	td   += " %-16s"%GETPAR("TD",i)
-	sw   += " %-16.3f"%float(GETPAR("SW",i))
-	sw_h += " %-16.3f"%float(GETPAR("SW_h",i))
-	nuc1 += " %-16s"%(GETPAR("NUC1",i))
-	sfo1 += " %-16.3f"%float(GETPAR("SFO1",i))
-	bf1_ = float(GETPAR("BF1",i))
-	bf1  += " %-16.3f"%bf1_
-	# changed to GETPAR2 since GETPAR does not work
-	o1_ = float(GETPAR2("%d O1"%i))
-	o1   += " %-16.3f"%o1_
-	o1ppm += " %-16.3f"%(o1_/bf1_)
-	aq += " %-16.3f"%(float(GETPAR("AQ",i))*1000.)
-	fnmod+= " %-16s"%FnMODE.get(GETPAR("FnMODE",i),"")
+    dim  += " %-16s"%("F"+str(i))
+    td   += " %-16s"%GETPAR("TD",i)
+    sw   += " %-16.3f"%float(GETPAR("SW",i))
+    sw_h += " %-16.3f"%float(GETPAR("SW_h",i))
+    nuc1 += " %-16s"%(GETPAR("NUC1",i))
+    sfo1 += " %-16.3f"%float(GETPAR("SFO1",i))
+    bf1_ = float(GETPAR("BF1",i))
+    bf1  += " %-16.3f"%bf1_
+    # changed to GETPAR2 since GETPAR does not work
+    o1_ = float(GETPAR2("%d O1"%i))
+    o1   += " %-16.3f"%o1_
+    o1ppm += " %-16.3f"%(o1_/bf1_)
+    aq += " %-16.3f"%(float(GETPAR("AQ",i))*1000.)
+    fnmod+= " %-16s"%FnMODE.get(GETPAR("FnMODE",i),"")
 	
 # put params in list
 top_list = [dim,nuc1,td,sw,sw_h,sfo1,bf1,o1,o1ppm,aq,fnmod]
