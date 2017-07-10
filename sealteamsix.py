@@ -110,7 +110,7 @@ def write_top(plist):
 def get_lists(lists):
     for i in lists:
         name = GETPAR(i[0])
-	path = i[1]
+        path = i[1]
         if name != "":
             path_name = os.path.join(path,name)
             if os.path.exists(path_name):
@@ -182,7 +182,7 @@ outfile.write(newsec+"\n")
 #outfile.write(" DEC = %s\n"%GETPAR("CPDPRG"))
 #get_spnams()
 
-params = ["ZGOPTNS","AQ_mod","NS","DS","DE","DW","DIGMOD","FnTYPE"]
+params = ["ZGOPTNS","AQ_mod","NS","DS","RG","DE","DW","DIGMOD","FnTYPE"]
 nus_params = ["NusAMOUNT","NusSEED","NusPOINTS","NUSLIST"]
 # for loop below the GETPAR command is used since the GETPAR2 command gives incorrect information
 for i in params:
@@ -363,7 +363,7 @@ def output_params(param_dic,fhandle,keys=None):
 pattern = re.compile("([T_]*NAME\t{2}(.+)\n)((\t{2}(.+)\n)+END)",re.M)
 ased_path = os.path.join(path,"format.ased")
 dic, params = find_blocks(ased_path,pattern)
-keys = ["pulses","powers","shapes","delays","gradients","constants","decoupling"]
+keys = ["delays","pulses","powers","shapes","gradients","constants","decoupling"]
 output_params(params,outfile,keys)
 outfile.write(newsec+"\n")
 get_lists(lists)
