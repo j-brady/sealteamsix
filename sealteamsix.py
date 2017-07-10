@@ -19,6 +19,8 @@ from math import log10 as log
 
 # compiles pp in order that format.ased is created
 XCMD("ased")
+# gets target temperature for probe
+XCMD("teget")
 
 if os.getlogin() == 'jbrady':
     path = "./testfiles"
@@ -39,6 +41,15 @@ else:
     
     outfile = open(os.path.join(path,outname),"w")
     outfile.write(os.path.join(path,outname)+"\n")
+
+# get the temperature after TEGET is run
+acqu_fil = open(os.path.join(path,"acqus"),"r")
+lines = acqu_fil.readlines()
+for line in lines:
+    if "##$TE=" in line:
+        temp = float(line.split("=")[1])
+        temp_c = temp - 273.15
+
 # Templates for rendering parameters
 power_template = Template(" $pulse $watt $dB :$alias")
 #pulse_template = Template(" $pulse $duration $watt $dB :$alias")
@@ -209,6 +220,9 @@ for i in params:
         else:
             string=" %-16s =  %-16s"% (i,GETPAR(i))
             outfile.write(string+"\n")
+# print temperature
+string = " %-16s =  %-16.2f K (%.2f C)"% ("TE",temp,temp_c)
+outfile.write(string+"\n")
 
 def match(regex,key):
     regex = re.compile(regex)
